@@ -5,13 +5,13 @@ DROP TABLE IF EXISTS department;
 CREATE TABLE department(
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
     dept_name VARCHAR(30) NOT NULL
-)
+);
 
 CREATE TABLE roles(
   id INTEGER AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(50) NOT NULL,
   salary DECIMAL(5,2) NOT NULL,
-  department_id INTEGER NOT NULL
+  department_id INTEGER NOT NULL,
   CONSTRAINT fk_department FOREIGN KEY (department_id) REFERENCES department(id) ON DELETE SET NULL 
 );
 
@@ -22,5 +22,5 @@ CREATE TABLE employee( id INTEGER AUTO_INCREMENT PRIMARY KEY,
     role_id INTEGER NOT NULL,
     manager_id INTEGER NOT NULL,
     CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE SET NULL,
-    CONSTRAINT fk_manager FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE
+    CONSTRAINT fk_manager FOREIGN KEY (manager_id) REFERENCES employee(id) ON DELETE CASCADE
     );
