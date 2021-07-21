@@ -24,31 +24,12 @@ console.log(``);
 console.log(``);
 console.log(chalk.yellow.bold(`====================================================================================`));
 
-function viewAllEmp(){
-    var  sql = `SELECT * from employee,role, department 
-    WHERE employee.role_id = role.id AND role.department_id =department.id 
-    ORDER BY employee.id ASC;` 
-    db.query(sql, (err, response) => {
-            if (err) {
-            throw(err); 
-            return;
-            }
-       
-        console.log(chalk.yellow.bold(`====================================================================================`));
-        console.log(`                              ` + chalk.green.bold(` Employees:`));
-        console.log(chalk.yellow.bold(`====================================================================================`));
-        console.table(response);
-        console.log(chalk.yellow.bold(`====================================================================================`));
-     
-     });
-     promptUserInput();
-};
 
 function promptUserInput (){
     inquirer
     .prompt([
         {
-          name: 'choices',
+          name: 'userchoice',
           type: 'list',
           message: 'Please select an option:',
           choices: [
@@ -71,8 +52,8 @@ function promptUserInput (){
             ]
         }
     ])
-  .then(answer=>{
-        switch(answer.action){
+  .then(({ userchoice }) =>{
+        switch(userchoice){
             case "View All Employees":
                 console.log("View all Employees");
                 viewAllEmp();
@@ -100,8 +81,8 @@ function promptUserInput (){
             case "Update Employee Manager":
                 //updateEmpMgr();
                 break;
-            case "View all Roles":
-                //viewAllRoles();
+            case "View All Roles":
+                viewAllRoles();
                 break;
             case "Add Role":
                 //addRole();
@@ -109,9 +90,9 @@ function promptUserInput (){
             case "Remove role":
                 //removeRole();
                 break;
-            case "View all Departments":
-                    //viewDeptBudget();
-                    break;
+            case "View All Departments":
+                viewAllDepts();
+                break;
             case "Add Department":
                 //addDept();
                 break;
@@ -127,4 +108,62 @@ function promptUserInput (){
 
     });
     
+};
+
+function viewAllEmp(){
+    const  sql = `SELECT employee.id ,employee.first_name,employee.last_name,role.title,role.salary,department.department_name from employee,role, department 
+    WHERE employee.role_id = role.id AND role.department_id =department.id 
+    ORDER BY employee.id ASC;` 
+    db.query(sql, (err, response) => {
+            if (err) {
+            throw(err); 
+            return;
+            }
+        console.log(``);
+        console.log(chalk.yellow.bold(`====================================================================================`));
+        console.log(`                              ` + chalk.green.bold(` Employees Table`));
+        console.log(chalk.yellow.bold(`====================================================================================`));
+        console.table(response);
+        console.log(chalk.yellow.bold(`====================================================================================`));
+     
+     });
+     promptUserInput();
+};
+
+function viewAllRoles(){
+    const  sql = `SELECT role.id,role.title,role.salary from role
+    ORDER BY role.id ASC;` 
+    db.query(sql, (err, response) => {
+            if (err) {
+            throw(err); 
+            return;
+            }
+        console.log(``);
+        console.log(chalk.yellow.bold(`====================================================================================`));
+        console.log(`                              ` + chalk.green.bold(` Employee Roles Table`));
+        console.log(chalk.yellow.bold(`====================================================================================`));
+        console.table(response);
+        console.log(chalk.yellow.bold(`====================================================================================`));
+     
+     });
+     promptUserInput();
+};
+
+function viewAllDepts(){
+    const  sql = `SELECT * from department
+    ORDER BY department.id ASC;` 
+    db.query(sql, (err, response) => {
+            if (err) {
+            throw(err); 
+            return;
+            }
+        console.log(``);
+        console.log(chalk.yellow.bold(`====================================================================================`));
+        console.log(`                              ` + chalk.green.bold(` Department Table`));
+        console.log(chalk.yellow.bold(`====================================================================================`));
+        console.table(response);
+        console.log(chalk.yellow.bold(`====================================================================================`));
+     
+     });
+     promptUserInput();
 };
