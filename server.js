@@ -1,26 +1,20 @@
-const express = require('express');
-const db = require('./db/connection');
-const inquirer = require('inquirer')
 
-const PORT = process.env.PORT || 3001;
-const app = express();
+const db = require('./db/connection'); // connection to database 
+const inquirer = require('inquirer') 
+const figlet = require('figlet');
 
-//express middleware 
-app.use(express.json);
-app.use(express.urlencoded({extended:true}));
-
-
-
-// Default response for any other request (Not Found)
-app.use((req,res)=>{
-    res.status(404).end();
-});
-
-// Connect to Database and start server 
+// Connect to Database
 db.connect(err =>{
     if (err) throw err;
+    else {
     console.log('Database connected.');
-    app.listen(PORT, ()=>{
-        console.log(`Server running on port ${PORT}`);
-    });
+    // call inquirer prompt 
+    }
 }); 
+
+//This line of code runs a synchronous function through the figlet npm that displays the designated text string in the console
+console.log(figlet.textSync('Employee Management', {
+    font: 'Standard',
+    horizontalLayout: 'default',
+    verticalLayout: 'default'
+}));
