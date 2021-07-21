@@ -3,6 +3,7 @@ const db = require('./db/connection'); // connection to database
 const inquirer = require('inquirer') 
 const figlet = require('figlet');
 const chalk = require('chalk');
+const cTable =require('console.table');
 
 // Connect to Database
 db.connect(err =>{
@@ -22,6 +23,26 @@ console.log(``);
 console.log(``);                                                        
 console.log(``);
 console.log(chalk.yellow.bold(`====================================================================================`));
+
+function viewAllEmp(){
+    var  sql = `SELECT * from employee,role, department 
+    WHERE employee.role_id = role.id AND role.department_id =department.id 
+    ORDER BY employee.id ASC;` 
+    db.query(sql, (err, response) => {
+            if (err) {
+            throw(err); 
+            return;
+            }
+       
+        console.log(chalk.yellow.bold(`====================================================================================`));
+        console.log(`                              ` + chalk.green.bold(` Employees:`));
+        console.log(chalk.yellow.bold(`====================================================================================`));
+        console.table(response);
+        console.log(chalk.yellow.bold(`====================================================================================`));
+     
+     });
+     promptUserInput();
+};
 
 function promptUserInput (){
     inquirer
@@ -50,10 +71,11 @@ function promptUserInput (){
             ]
         }
     ])
-  .then(answer => {
+  .then(answer=>{
         switch(answer.action){
             case "View All Employees":
-                //viewAllEmp();
+                console.log("View all Employees");
+                viewAllEmp();
                 break;
             case "View all Employees By Department":
                 //viewAllEmpByDept();
