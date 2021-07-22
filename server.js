@@ -58,16 +58,16 @@ function promptUserInput (){
                 console.log("View all Employees");
                 viewAllEmp();
                 break;
-            case "View all Employees By Department":
-                //viewAllEmpByDept();
+            case "View All Employees By Department":
+                viewAllEmpByDept();
                 break;
 
-            case "View all Employees By Role":
-                //viewAllEmpByRole();
+            case "View All Employees By Role":
+                viewAllEmpByRole();
                 break;
 
-            case "View all Employees By Manager":
-                ///viewAllEmpByMgr();
+            case "View All Employees By Manager":
+                //viewAllEmpByMgr();
                 break;
             case "Add Employee":
                 //addEmp();
@@ -167,3 +167,47 @@ function viewAllDepts(){
      });
      promptUserInput();
 };
+function viewAllEmpByRole(){
+    const sql =`SELECT employee.id AS Employee_ID,CONCAT (employee.first_name," ",employee.last_name) AS Employee_Name ,role.title AS Desgination
+    FROM employee
+    LEFT JOIN role ON employee.role_id =role.id
+    ORDER BY role.id ASC;`
+    db.query(sql, (err, response) => {
+            if (err) {
+            throw(err); 
+            return;
+            }
+        console.log(``);
+        console.log(chalk.yellow.bold(`====================================================================================`));
+        console.log(`                              ` + chalk.green.bold(` Employees by Role Table`));
+        console.log(chalk.yellow.bold(`====================================================================================`));
+        console.table(response);
+        console.log(chalk.yellow.bold(`====================================================================================`));
+    
+        });
+    promptUserInput();
+
+}
+
+function viewAllEmpByDept(){
+    const sql =`SELECT employee.id AS Employee_ID,CONCAT (employee.first_name," ",employee.last_name) AS Employee_Name,department.department_name AS Department 
+    FROM employee
+    LEFT JOIN role ON employee.role_id =role.id 
+    LEFT JOIN department ON role.department_id =department.id
+    ORDER BY employee.id ASC;`
+    db.query(sql, (err, response) => {
+        if (err) {
+        throw(err); 
+        return;
+        }
+        console.log(``);
+        console.log(chalk.yellow.bold(`====================================================================================`));
+        console.log(`                              ` + chalk.green.bold(` Employees by Role Table`));
+        console.log(chalk.yellow.bold(`====================================================================================`));
+        console.table(response);
+        console.log(chalk.yellow.bold(`====================================================================================`));
+    
+        });
+    promptUserInput();
+
+}
