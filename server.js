@@ -46,6 +46,7 @@ function promptUserInput (){
             'Add Role',
             'Remove Role',
             'View All Departments',
+            'Total Utilized Budget of a Department',
             'Add Department',
             'Remove Department',
             'Exit'
@@ -304,5 +305,27 @@ function deleteDeptRecord(deptName){
 };
 
 
+function viewDeptBudget(){
+    const sql =`SELECT department.name AS Department,SUM(role.salary) AS Budget
+    FROM employee,department,role 
+    WHERE  role.department_id =department.id 
+    AND 
+    employee.role_id =role.id
+    GROUP BY department.id;`
+    db.query(sql, (err, response) => {
+        if (err) {
+        throw(err); 
+        return;
+        }
+        console.log(``);
+        console.log(chalk.yellow.bold(`====================================================================================`));
+        console.log(`                              ` + chalk.green.bold(` Total Budget by Department`));
+        console.log(chalk.yellow.bold(`====================================================================================`));
+        console.table((response));
+        console.log(chalk.yellow.bold(`====================================================================================`));
+    
+        });
+    promptUserInput();
 
+}
     
