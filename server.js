@@ -37,7 +37,6 @@ function promptUserInput (){
             'View All Employees By Department',
             'View All Employees By Role',
             'View All Employees By Manager',
-            'View All Employees by Order of Salary',
             'Add Employee',
             'Remove Employee',
             'Update Employee Role',
@@ -95,7 +94,7 @@ function promptUserInput (){
                 viewAllDepts();
                 break;
             case "Add Department":
-                //addDept();
+                addDept();
                 break;
             case "Remove Department":
                 removeDept();
@@ -326,6 +325,40 @@ function viewDeptBudget(){
     
         });
     promptUserInput();
+}
+
+function addDept()
+{
+    const sql = `INSERT into department(name) VALUES(?);`
+    inquirer
+    .prompt
+    ([
+        {
+            name: 'deptName',
+            type: 'text',
+            message: 'Enter the department you would like to add:',
+            validate: nameInput => {
+                if (nameInput) {
+                  return true;
+                } else {
+                  console.log('Please Enter the department you would like to add:');
+                  return false;
+                }
+            },
+            
+        }     
+    ])
+    .then(({deptName})=>{
+ 
+    db.query(sql,deptName, (err,response)=>{
+        if (err) {
+            console.log(err);
+          }
+          console.log(chalk.redBright.bold(`====================================================================================`));
+          console.log(chalk.greenBright(`Department record Successfully Added`));
+          console.log(chalk.redBright.bold(`====================================================================================`));
+          viewAllDepts();
+    });
+});
 
 }
-    
