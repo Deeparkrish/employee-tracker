@@ -87,8 +87,8 @@ function promptUserInput (){
             case "Add Role":
                 //addRole();
                 break;
-            case "Remove role":
-                //removeRole();
+            case "Remove Role":
+                removeRole();
                 break;
             case "View All Departments":
                 viewAllDepts();
@@ -96,8 +96,8 @@ function promptUserInput (){
             case "Add Department":
                 //addDept();
                 break;
-            case "Remove department":
-                //removeDept();
+            case "Remove Department":
+                removeDept();
                 break;
             case "Exit":
                 db.end(); 
@@ -202,12 +202,103 @@ function viewAllEmpByDept(){
         }
         console.log(``);
         console.log(chalk.yellow.bold(`====================================================================================`));
-        console.log(`                              ` + chalk.green.bold(` Employees by Role Table`));
+        console.log(`                              ` + chalk.green.bold(` Employees by Department`));
         console.log(chalk.yellow.bold(`====================================================================================`));
-        console.table(response);
+        console.table((response));
         console.log(chalk.yellow.bold(`====================================================================================`));
     
         });
     promptUserInput();
 
 }
+
+function removeRole(){
+
+    const sql = `SELECT * FROM role`;
+    db.query(sql, (err,response) =>{
+        if(err){
+            throw(err);
+            return;
+        }
+        let roleTitleArr =[];
+        response.forEach(role => {
+            roleTitleArr.push(role.title);
+        })
+        inquirer
+        .prompt([
+          {
+            name: 'roleChoice',
+            type: 'list',
+            message: 'Choose the role you would like to remove?',
+            choices: roleTitleArr
+          }
+        ])
+        .then (({roleChoice})=>{
+            response.forEach(role => {
+                if(roleChoice ===role.title){
+                    deleteRoleRecord(roleChoice);
+                }
+            })
+        });
+        });
+
+}
+
+function deleteRoleRecord(roleTitle){
+    
+    db.query(`DELETE FROM role WHERE title = ?`, roleTitle, (err, response) => {
+        if (err) {
+          console.log(err);
+        }
+        console.log(chalk.redBright.bold(`====================================================================================`));
+        console.log(chalk.greenBright(`Role Successfully Removed`));
+        console.log(chalk.redBright.bold(`====================================================================================`));
+        viewAllRoles();
+      });
+    }
+
+
+function removeDept() {
+    const sql = `SELECT * FROM department`;
+    db.query(sql,(err,response) =>{
+        if(err){
+            throw(err);
+            return;
+        }
+        let deptNameArr =[];
+        response.forEach(dept => {
+            deptNameArr.push(dept.department_name);
+        });
+        inquirer
+        .prompt([
+          {
+            name: 'deptChoice',
+            type: 'list',
+            message: 'Choose the department you would like to remove?',
+            choices: deptNameArr
+          }
+        ])
+        .then (({deptChoice})=>{     
+            response.forEach(dept => {
+                if(deptChoice === dept.department_name){
+                    deleteDeptRecord(deptChoice);
+                }
+            })
+        });
+    });
+}
+function deleteDeptRecord(deptName){    
+    db.query(`DELETE FROM department WHERE department_name = ?`, deptName, (err, result) => {
+        if (err) {
+          console.log(err);
+        }
+        console.log(chalk.redBright.bold(`====================================================================================`));
+        console.log(chalk.greenBright(`Department record Successfully Removed`));
+        console.log(chalk.redBright.bold(`====================================================================================`));
+        viewAllDepts();
+      });
+};
+
+
+
+    
