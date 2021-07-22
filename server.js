@@ -99,6 +99,9 @@ function promptUserInput (){
             case "Remove Department":
                 removeDept();
                 break;
+            case "Total Utilized Budget of a Department":
+                viewDeptBudget();
+                break;
             case "Exit":
                 db.end(); 
                 break;
@@ -111,7 +114,7 @@ function promptUserInput (){
 };
 
 function viewAllEmp(){
-    const  sql = `SELECT employee.id ,employee.first_name,employee.last_name,role.title,role.salary,department.department_name from employee,role, department 
+    const  sql = `SELECT employee.id ,employee.first_name,employee.last_name,role.title,role.salary,department.name from employee,role, department 
     WHERE employee.role_id = role.id AND role.department_id =department.id 
     ORDER BY employee.id ASC;` 
     db.query(sql, (err, response) => {
@@ -131,7 +134,9 @@ function viewAllEmp(){
 };
 
 function viewAllRoles(){
-    const  sql = `SELECT role.id,role.title,role.salary from role
+    const  sql = `SELECT role.id AS ID,role.title AS Role ,department.name AS Department,role.salary AS Salary
+    FROM role,department
+    WHERE  role.department_id =department.id
     ORDER BY role.id ASC;` 
     db.query(sql, (err, response) => {
             if (err) {
@@ -168,7 +173,7 @@ function viewAllDepts(){
      promptUserInput();
 };
 function viewAllEmpByRole(){
-    const sql =`SELECT employee.id AS Employee_ID,CONCAT (employee.first_name," ",employee.last_name) AS Employee_Name ,role.title AS Desgination
+    const sql =`SELECT employee.id AS Employee_ID,CONCAT (employee.first_name," ",employee.last_name) AS Employee_Name ,role.title AS Role
     FROM employee
     LEFT JOIN role ON employee.role_id =role.id
     ORDER BY role.id ASC;`
@@ -190,7 +195,7 @@ function viewAllEmpByRole(){
 }
 
 function viewAllEmpByDept(){
-    const sql =`SELECT employee.id AS Employee_ID,CONCAT (employee.first_name," ",employee.last_name) AS Employee_Name,department.department_name AS Department 
+    const sql =`SELECT employee.id AS Employee_ID,CONCAT (employee.first_name," ",employee.last_name) AS Employee_Name,department.name AS Department 
     FROM employee
     LEFT JOIN role ON employee.role_id =role.id 
     LEFT JOIN department ON role.department_id =department.id
@@ -245,7 +250,6 @@ function removeRole(){
 }
 
 function deleteRoleRecord(roleTitle){
-    
     db.query(`DELETE FROM role WHERE title = ?`, roleTitle, (err, response) => {
         if (err) {
           console.log(err);
@@ -267,7 +271,7 @@ function removeDept() {
         }
         let deptNameArr =[];
         response.forEach(dept => {
-            deptNameArr.push(dept.department_name);
+            deptNameArr.push(dept.name);
         });
         inquirer
         .prompt([
@@ -280,7 +284,7 @@ function removeDept() {
         ])
         .then (({deptChoice})=>{     
             response.forEach(dept => {
-                if(deptChoice === dept.department_name){
+                if(deptChoice === dept.name){
                     deleteDeptRecord(deptChoice);
                 }
             })
@@ -288,7 +292,7 @@ function removeDept() {
     });
 }
 function deleteDeptRecord(deptName){    
-    db.query(`DELETE FROM department WHERE department_name = ?`, deptName, (err, result) => {
+    db.query(`DELETE FROM department WHERE name = ?`, deptName, (err, result) => {
         if (err) {
           console.log(err);
         }
