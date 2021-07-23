@@ -75,10 +75,10 @@ function promptUserInput (){
                 //addEmp();
                 break;
             case "Remove Employee":
-                //removeEmp();
+                removeEmp();
                 break;
             case "Update Employee Role":
-                //updateEmpRole();
+                updateEmp();
                 break;
             case "Update Employee Manager":
                 //updateEmpMgr();
@@ -219,9 +219,31 @@ function viewAllEmpByDept(){
 
 }
 
-function removeRole(){
+function viewDeptBudget(){
+    const sql =`SELECT department.name AS Department,SUM(role.salary) AS Budget
+    FROM employee,department,role 
+    WHERE  role.department_id =department.id 
+    AND 
+    employee.role_id =role.id
+    GROUP BY department.id;`
+    db.query(sql, (err, response) => {
+        if (err) {
+        throw(err); 
+        return;
+        }
+        console.log(``);
+        console.log(chalk.yellow.bold(`====================================================================================`));
+        console.log(`                              ` + chalk.green.bold(` Total Budget by Department`));
+        console.log(chalk.yellow.bold(`====================================================================================`));
+        console.table((response));
+        console.log(chalk.yellow.bold(`====================================================================================`));
+    
+        });
+    promptUserInput();
+}
 
-    const sql = `SELECT * FROM role`;
+function removeRole(){
+    const sql = `SELECT title FROM role`;
     db.query(sql, (err,response) =>{
         if(err){
             throw(err);
@@ -265,7 +287,7 @@ function deleteRoleRecord(roleTitle){
 
 
 function removeDept() {
-    const sql = `SELECT * FROM department`;
+    const sql = `SELECT name FROM department`;
     db.query(sql,(err,response) =>{
         if(err){
             throw(err);
@@ -305,29 +327,106 @@ function deleteDeptRecord(deptName){
       });
 };
 
-
-function viewDeptBudget(){
-    const sql =`SELECT department.name AS Department,SUM(role.salary) AS Budget
-    FROM employee,department,role 
-    WHERE  role.department_id =department.id 
-    AND 
-    employee.role_id =role.id
-    GROUP BY department.id;`
-    db.query(sql, (err, response) => {
-        if (err) {
-        throw(err); 
-        return;
-        }
-        console.log(``);
-        console.log(chalk.yellow.bold(`====================================================================================`));
-        console.log(`                              ` + chalk.green.bold(` Total Budget by Department`));
-        console.log(chalk.yellow.bold(`====================================================================================`));
-        console.table((response));
-        console.log(chalk.yellow.bold(`====================================================================================`));
-    
-        });
-    promptUserInput();
+function removeEmp() {
+    choseEmployee('delete');
 }
+
+function chooseEmployee(operation){
+   const sql = `SELECT employee.first_name, employee.last_name,employee.id FROM employee`;
+    db.query(sql,(err,response) =>{
+        if(err){
+            throw(err);
+            return;
+        }
+        let empNameArr =[];
+        response.forEach(employee => {
+            empNameArr.push(`${employee.first_name} ${employee.last_name}`);
+        });
+        inquirer
+        .prompt([
+          {
+            name: 'empChoice',
+            type: 'list',
+            message: 'Choose the employee you would like to remove?',
+            choices: empNameArr
+          }
+        ])
+        .then (({empChoice})=>{     
+            response.forEach(employee => {
+                if(empChoice === `${employee.first_name} ${employee.last_name}`){
+                    let empId =employee.id;
+                    if(operation==='delete')
+                    deleteEmpRecord(empId);
+                    if(operation==='update')
+                    updateEmpRole(empId);
+                }
+            })
+        });
+    });
+}
+function deleteEmpRecord(empId){    
+    db.query(`DELETE FROM employee WHERE id = ?`, [empId], (err, result) => {
+        if (err) {
+          console.log(err);
+        }
+        console.log(chalk.redBright.bold(`====================================================================================`));
+        console.log(chalk.greenBright(`Employee Successfully Removed`));
+        console.log(chalk.redBright.bold(`====================================================================================`));
+        viewAllEmp();
+      });
+};
+
+
+function updateEmp() {
+    chooseEmployee('update');
+}
+
+function updateEmpRole(empId){
+    const sql = `SELECT * FROM role`;
+    db.query(sql, (err,response) =>{
+        if(err){
+            throw(err);
+            return;
+        }
+        let roleTitleArr =[];
+        response.forEach(role => {
+            roleTitleArr.push(role.title);
+        })
+        inquirer
+        .prompt([
+          {
+            name: 'roleChoice',
+            type: 'list',
+            message: 'Choose the  new role you would like to assign',
+            choices: roleTitleArr
+          }
+        ])
+        .then (({roleChoice})=>{
+            response.forEach(role => {
+                if(roleChoice ===role.title){
+                    let roleId =role.id;
+                    updateRole(roleId,empId);
+                }
+            })
+        });
+        });
+
+}
+function updateRole(newRoleId,empId){
+    let sql =    `UPDATE employee SET employee.role_id = ? WHERE employee.id = ?`;
+            db.query(
+              sql,
+              [newRoleId, empId],
+              (error) => {
+                if (error) throw error;
+                console.log(chalk.greenBright.bold(`====================================================================================`));
+                console.log(chalk.greenBright(`Employee Role Updated`));
+                console.log(chalk.greenBright.bold(`====================================================================================`));
+                viewAllEmpByRole();
+              }
+            );
+}
+
 
 function addDept()
 {
@@ -350,15 +449,7 @@ function addDept()
         }     
     ])
     .then(({deptName})=>{
-    //  `INSERT INTO department(name) VALUES(?)ON DUPLICATE KEY UPDATE name=${deptName};`
-//     const sql =` SET @name =${deptName};
-// INSERT INTO  department(name) VALUES(@name)
-// ON DUPLICATE KEY UPDATE department(name)= @name;`
-// const errors = inputCheck(deptName,'name');
-// if (errors != null) {
-//     console.log ("Data not in correct format!");
-//     return;
-//   }
+  
 const sql = `INSERT INTO department(name) VALUES(?);`
 const params = [deptName];
 
