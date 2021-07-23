@@ -4,6 +4,8 @@ const inquirer = require('inquirer')
 const figlet = require('figlet');
 const chalk = require('chalk');
 const cTable =require('console.table');
+const inputCheck = require('./utils/inputCheck');
+
 
 // Connect to Database
 db.connect(err =>{
@@ -329,7 +331,6 @@ function viewDeptBudget(){
 
 function addDept()
 {
-    const sql = `INSERT into department(name) VALUES(?);`
     inquirer
     .prompt
     ([
@@ -349,11 +350,23 @@ function addDept()
         }     
     ])
     .then(({deptName})=>{
- 
-    db.query(sql,deptName, (err,response)=>{
+    //  `INSERT INTO department(name) VALUES(?)ON DUPLICATE KEY UPDATE name=${deptName};`
+//     const sql =` SET @name =${deptName};
+// INSERT INTO  department(name) VALUES(@name)
+// ON DUPLICATE KEY UPDATE department(name)= @name;`
+// const errors = inputCheck(deptName,'name');
+// if (errors != null) {
+//     console.log ("Data not in correct format!");
+//     return;
+//   }
+const sql = `INSERT INTO department(name) VALUES(?);`
+const params = [deptName];
+
+    db.query(sql,params,(err,response)=>{
         if (err) {
             console.log(err);
           }
+        
           console.log(chalk.redBright.bold(`====================================================================================`));
           console.log(chalk.greenBright(`Department record Successfully Added`));
           console.log(chalk.redBright.bold(`====================================================================================`));
