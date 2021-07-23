@@ -350,28 +350,37 @@ function addDept()
         }     
     ])
     .then(({deptName})=>{
-    //  `INSERT INTO department(name) VALUES(?)ON DUPLICATE KEY UPDATE name=${deptName};`
-//     const sql =` SET @name =${deptName};
-// INSERT INTO  department(name) VALUES(@name)
-// ON DUPLICATE KEY UPDATE department(name)= @name;`
-// const errors = inputCheck(deptName,'name');
-// if (errors != null) {
-//     console.log ("Data not in correct format!");
-//     return;
-//   }
-const sql = `INSERT INTO department(name) VALUES(?);`
-const params = [deptName];
+
+    const sql = `INSERT INTO department(name) VALUES(?)ON DUPLICATE KEY UPDATE name=?;`;
+    const params = [deptName,deptName];
 
     db.query(sql,params,(err,response)=>{
         if (err) {
             console.log(err);
           }
-        
+        //   let count =getTableCount('department');
+        //   console.log(count);
           console.log(chalk.redBright.bold(`====================================================================================`));
           console.log(chalk.greenBright(`Department record Successfully Added`));
           console.log(chalk.redBright.bold(`====================================================================================`));
           viewAllDepts();
     });
 });
+
+}
+
+
+function getTableCount(tableName)
+{
+    let sql =`SELECT COUNT(*) FROM ?;`
+    let params =[tableName];
+
+    db.query(sql,params,(err,response)=>{
+        if (err) {
+            console.log(err);
+          }
+        console.log("get table count:"+response);
+        return `${response}`;
+    })
 
 }
