@@ -26,7 +26,7 @@ console.log(``);
 console.log(``);
 console.log(chalk.yellow.bold(`====================================================================================`));
 
-
+// User response from inquirer
 function promptUserInput (){
     inquirer
     .prompt([
@@ -87,7 +87,7 @@ function promptUserInput (){
                 viewAllRoles();
                 break;
             case "Add Role":
-                //addRole();
+                addRole();
                 break;
             case "Remove Role":
                 removeRole();
@@ -114,7 +114,7 @@ function promptUserInput (){
     });
     
 };
-
+//**************************VIEW ************************************ */
 function viewAllEmp(){
     const  sql = `SELECT employee.id ,employee.first_name,employee.last_name,role.title,role.salary,department.name from employee,role, department 
     WHERE employee.role_id = role.id AND role.department_id =department.id 
@@ -241,7 +241,7 @@ function viewDeptBudget(){
         });
     promptUserInput();
 }
-
+/************************************Delete********************** */
 function removeRole(){
     const sql = `SELECT title FROM role`;
     db.query(sql, (err,response) =>{
@@ -287,7 +287,11 @@ function deleteRoleRecord(roleTitle){
 
 
 function removeDept() {
-    const sql = `SELECT name FROM department`;
+    chooseDept('remove')
+}
+
+function chooseDept(operation){
+    const sql = `SELECT * FROM department`;
     db.query(sql,(err,response) =>{
         if(err){
             throw(err);
@@ -302,16 +306,23 @@ function removeDept() {
           {
             name: 'deptChoice',
             type: 'list',
-            message: 'Choose the department you would like to remove?',
+            message: 'Choose the department name:',
             choices: deptNameArr
           }
         ])
         .then (({deptChoice})=>{     
             response.forEach(dept => {
                 if(deptChoice === dept.name){
-                    deleteDeptRecord(deptChoice);
+                    if (operation ==='remove'){
+                    deleteDeptRecord(deptChoice);}
+                    else if(operation ==='linkrole')
+                    {
+
+                    let tempId = dept.id;
+                    addDeptToRole(tempId)
+                    }
                 }
-            })
+            });
         });
     });
 }
@@ -328,7 +339,7 @@ function deleteDeptRecord(deptName){
 };
 
 function removeEmp() {
-    choseEmployee('delete');
+    chooseEmployee('delete');
 }
 
 function chooseEmployee(operation){
@@ -376,7 +387,7 @@ function deleteEmpRecord(empId){
       });
 };
 
-
+/*******************************************Update*****************************/
 function updateEmp() {
     chooseEmployee('update');
 }
@@ -427,9 +438,11 @@ function updateRole(newRoleId,empId){
             );
 }
 
-
+/*********************************Add/Create  ***************************/
+//Add Dept 
 function addDept()
 {
+    
     inquirer
     .prompt
     ([
@@ -449,10 +462,8 @@ function addDept()
         }     
     ])
     .then(({deptName})=>{
-  
-const sql = `INSERT INTO department(name) VALUES(?);`
-const params = [deptName];
-
+    const sql = `INSERT INTO department(name) VALUES(?)ON DUPLICATE KEY UPDATE name=?;`;
+    const params = [deptName,deptName];
     db.query(sql,params,(err,response)=>{
         if (err) {
             console.log(err);
@@ -462,6 +473,60 @@ const params = [deptName];
           console.log(chalk.greenBright(`Department record Successfully Added`));
           console.log(chalk.redBright.bold(`====================================================================================`));
           viewAllDepts();
+    });
+});
+
+}
+
+
+//adding a Role 
+function addRole(){
+    chooseDept('linkrole');
+}
+function addDeptToRole(depId)
+{    
+  inquirer
+    .prompt([
+        {       
+            name: 'roleTitle',
+            type: 'text',
+            message: 'Enter the role title you would like to add:',
+            validate: titleInput => {
+                if (titleInput) {
+                  return true;
+                } else {
+                  console.log('Please Enter the role title you would like to add:');
+                  return false;
+                }
+            }
+        },    
+        {    
+            name: 'roleSalary',
+            type: 'Number',
+            message: 'Enter the salary amount you would like to add:',
+            validate: salaryInput => {
+                if (salaryInput) {
+                  return true;
+                } else {
+                  console.log('Please Enter the salary amount you would like to add:');
+                  return false;
+                }
+            }
+            
+        }     
+    ])
+    .then((answer) => {
+    const sql = `INSERT INTO role(title,salary,department_id) VALUES(?,?,?)`;
+    const params = [answer.roleTitle,answer.roleSalary,depId];
+    db.query(sql,params,(err,response)=>{
+        if (err) {
+            console.log(err);
+          }
+        
+          console.log(chalk.redBright.bold(`====================================================================================`));
+          console.log(chalk.greenBright(`Role Successfully Added`));
+          console.log(chalk.redBright.bold(`====================================================================================`));
+          viewAllRoles();
     });
 });
 
