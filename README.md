@@ -40,22 +40,22 @@
   ## Process
   At the  start of the application (node server ),
   * The user is  presented with the following options: 
-             > View All Employees
-             > View All Employees By Department
-             > View All Employees By Role
-             > View All Employees By Manager
-             > Add Employe
-             > Remove Employe
-             > Update Employee Role
-             > Update Employee Manager
-             > View All Role
-             > Add Role
-             > Remove Role
-             > View All Departments
-             > Total Utilized Budget of a Department
-             > Add Department
-             > Remove Department
-             > Exit
+             * View All Employees
+             * View All Employees By Department
+             * View All Employees By Role
+             * View All Employees By Manager
+             * Add Employe
+             * Remove Employe
+             * Update Employee Role
+             * Update Employee Manager
+             * View All Role
+             * Add Role
+             * Remove Role
+             * View All Departments
+             * Total Utilized Budget of a Department
+             * Add Department
+             * Remove Department
+             * Exit
   * When the user chooses to view all departments,he has been presented with a formatted table showing department names and department ids
   * When the user chooses to view all roles,he has been presented with the job title, role id, the department that role belongs to, and the salary for that role.
   * When the choose to view all employees,he has been presented with a formatted table showing employee data, including employee ids, first names, last names,      job titles, departments, salaries, and managers that the employees report to.
@@ -68,6 +68,7 @@
   * The total budget for a Depatment is displayed as table by adding the salaries of all individual employees.
   * Each input is  validated and sent as SQL query to the database. 
   * The application is exited  when the user chooses Exit option.
+  * The application has #CRUD functionality.
  
 
   ## Pseudocode
@@ -83,11 +84,9 @@
 
   
   ##  ProjectDemo
-  #### User input/HTML generation
-  [![Youtube](https://img.youtube.com/vi/f3hP1mj1puE/0.jpg)](https://www.youtube.com/embed/f3hP1mj1puE)
+  [![Youtube](https://img.youtube.com/vi/w_SiYzG9_kI/0.jpg)](https://www.youtube.com/embed/w_SiYzG9_kI)
 
-  ### Email/Github link 
-  ![MyDemo](https://github.com/Deeparkrish/Team-Profile-Generator/blob/main/src/demo/git:emailDemo.gif)
+  
   ## Testing
   The SQL commands have been tested using SQL workbench and also using sql2 prompt in command line
    mysql2 -u root -p        
