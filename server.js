@@ -519,6 +519,7 @@ function  updateEmpMgr()  {
             choices: employeeNamesArr
           }
         ])
+
         .then((answer) => {
           // Validate the user selection  
           let employeeId, managerId;
@@ -537,7 +538,7 @@ function  updateEmpMgr()  {
             }
           });
           // The employee name and manager name are same declare it as invalid choice.
-          if ((answer.chosenEmployee=== answer.newManager)||(empRole != 1)) {
+          if ((answer.chosenEmployee=== answer.newManager)) {
             console.log(chalk.redBright.bold(`====================================================================================`));
             console.log(chalk.redBright(`Invalid Manager Selection`));
             console.log(chalk.redBright.bold(`====================================================================================`));
@@ -594,7 +595,8 @@ function addDept()
         if (err) {
             console.log(err);
           }
-        
+        //   let count =getTableCount('department');
+        //   console.log(count);
           console.log(chalk.redBright.bold(`====================================================================================`));
           console.log(chalk.greenBright(`Department record Successfully Added`));
           console.log(chalk.redBright.bold(`====================================================================================`));
