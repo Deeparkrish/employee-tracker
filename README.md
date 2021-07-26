@@ -42,22 +42,22 @@
   ## Process
   At the  start of the application (node server ),
   * The user is  presented with the following options: 
-             * View All Employees
-             * View All Employees By Department
-             * View All Employees By Role
-             * View All Employees By Manager
-             * Add Employe
-             * Remove Employe
-             * Update Employee Role
-             * Update Employee Manager
-             * View All Role
-             * Add Role
-             * Remove Role
-             * View All Departments
-             * Total Utilized Budget of a Department
-             * Add Department
-             * Remove Department
-             * Exit
+      * View All Employees
+      * View All Employees By Department
+      * View All Employees By Role
+      * View All Employees By Manager
+      * Add Employe
+      * Remove Employee
+      * Update Employee Role
+      * Update Employee Manager
+      * View All Role
+      * Add Role
+      * Remove Role
+      * View All Departments
+      * Total Utilized Budget of a Department
+      * Add Department
+      * Remove Department
+      * Exit
   * When the user chooses to view all departments,he has been presented with a formatted table showing department names and department ids
   * When the user chooses to view all roles,he has been presented with the job title, role id, the department that role belongs to, and the salary for that role.
   * When the choose to view all employees,he has been presented with a formatted table showing employee data, including employee ids, first names, last names,      job titles, departments, salaries, and managers that the employees report to.
