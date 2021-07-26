@@ -18,6 +18,7 @@
   * [Usage](#usage)
   * [License](#license)
   * [Process](#process)
+  * [Enhancements](#enhancements)
   * [Pseudocode](#pseudocode)
   * [MockUp](#mockup)
   * [ProjectDemo](#projectdemo)
@@ -70,7 +71,11 @@
   * Each input is  validated and sent as SQL query to the database. 
   * The application is exited  when the user chooses Exit option.
   * The application has #CRUD functionality.
- 
+  
+  ##  Enhancements
+  * In future, The functions involving adding , deleting ,updating and  reading the tables will be grouped in separate .js files as modules 
+    and will be  exported server.js.
+  
 
   ## Pseudocode
   ![Webpage](https://github.com/Deeparkrish/Team-Profile-Generator/blob/main/src/img/flow-chart.jpeg)
