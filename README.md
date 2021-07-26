@@ -78,10 +78,9 @@
   
 
   ## Pseudocode
-  ![Webpage](https://github.com/Deeparkrish/Team-Profile-Generator/blob/main/src/img/flow-chart.jpeg)
-  ![Webpage](https://github.com/Deeparkrish/Team-Profile-Generator/blob/main/src/img/Pseudocode.jpeg)
-  ![Webpage](https://github.com/Deeparkrish/Team-Profile-Generator/blob/main/src/img/pseudo1.jpeg)
-  ![Webpage](https://github.com/Deeparkrish/Team-Profile-Generator/blob/main/src/img/pseudo2.jpeg)
+  ![Webpage](https://github.com/Deeparkrish/employee-tracker/blob/main/psuedo1.jpeg)
+  ![Webpage](https://github.com/Deeparkrish/employee-tracker/blob/main/psuedo2.jpeg)
+
   
   
   
