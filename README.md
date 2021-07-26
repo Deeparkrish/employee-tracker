@@ -31,6 +31,8 @@
     npm install msql2  inquirer console.table 
     npm i figlet
     Starting the Server :mysql  -u root -p
+    source <database-schema.sql> 
+    source <seeds.sql>
 
   ##  Usage
     node server
