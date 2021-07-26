@@ -70,7 +70,7 @@
   * The total budget for a Depatment is displayed as table by adding the salaries of all individual employees.
   * Each input is  validated and sent as SQL query to the database. 
   * The application is exited  when the user chooses Exit option.
-  * The application has ##  CRUD functionality.
+  * The application has CRUD functionality.
   
   ##  Enhancements
   * In future, The functions involving adding , deleting ,updating and  reading the tables will be grouped in separate .js files as modules 
