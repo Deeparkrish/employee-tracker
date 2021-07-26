@@ -519,6 +519,7 @@ function  updateEmpMgr()  {
             choices: employeeNamesArr
           }
         ])
+        
         .then((answer) => {
           // Validate the user selection  
           let employeeId, managerId;
