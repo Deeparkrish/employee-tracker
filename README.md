@@ -81,7 +81,12 @@
   
   
   ##  Mockup
-   ![Webpage](https://github.com/Deeparkrish/Team-Profile-Generator/blob/main/src/img/mockup1.png)
+   ![Webpage](https://github.com/Deeparkrish/employee-tracker/blob/main/mockup-schema1.png)
+   ![Webpage](https://github.com/Deeparkrish/employee-tracker/blob/main/mockup2.png)
+   ![Webpage](https://github.com/Deeparkrish/employee-tracker/blob/main/mockup3.png)
+
+   
+
   
   ##  ProjectDemo
   [![Youtube](https://img.youtube.com/vi/w_SiYzG9_kI/0.jpg)](https://www.youtube.com/embed/w_SiYzG9_kI)
