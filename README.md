@@ -86,6 +86,7 @@
   
   
   ##  Mockup
+   ![Webpage](https://github.com/Deeparkrish/employee-tracker/blob/main/tablemock%20up.png)
    ![Webpage](https://github.com/Deeparkrish/employee-tracker/blob/main/mockup-schema1.png)
    ![Webpage](https://github.com/Deeparkrish/employee-tracker/blob/main/mockup2.png)
    ![Webpage](https://github.com/Deeparkrish/employee-tracker/blob/main/mockup3.png)
