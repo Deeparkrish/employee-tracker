@@ -79,7 +79,7 @@
 
   ## Pseudocode
   ![Webpage](https://github.com/Deeparkrish/employee-tracker/blob/main/psuedo1.jpeg)
-  ![Webpage](https://github.com/Deeparkrish/employee-tracker/blob/main/psuedo2.jpeg)
+  ![Webpage](https://github.com/Deeparkrish/employee-tracker/blob/main/pseudo2.jpeg)
 
   
   
