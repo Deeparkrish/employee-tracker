@@ -29,6 +29,7 @@
   ##  Installation
     npm install msql2  inquirer console.table 
     npm i figlet
+    Starting the Server :mysql  -u root -p
 
   ##  Usage
     node server
@@ -81,15 +82,13 @@
   
   ##  Mockup
    ![Webpage](https://github.com/Deeparkrish/Team-Profile-Generator/blob/main/src/img/mockup1.png)
-
   
   ##  ProjectDemo
   [![Youtube](https://img.youtube.com/vi/w_SiYzG9_kI/0.jpg)](https://www.youtube.com/embed/w_SiYzG9_kI)
 
-  
   ## Testing
   The SQL commands have been tested using SQL workbench and also using sql2 prompt in command line
-   mysql2 -u root -p        
+  
   ## ProjectRepo 
   Git hub link: https://github.com/Deeparkrish/employee-tracker
 
