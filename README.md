@@ -75,8 +75,9 @@
   * The application has CRUD functionality.
   
   ##  Enhancements
+  ### Modularize the application :
   * In future, The functions involving adding , deleting ,updating and  reading the tables will be grouped in separate .js files as modules 
-    and will be  exported server.js.
+  and will be  exported server.js.
   
 
   ## Pseudocode
